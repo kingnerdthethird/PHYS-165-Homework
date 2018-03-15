@@ -38,16 +38,6 @@ def Random_Walk(steps):
 
 number_steps = 1000
 
-# f, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, sharex='col', sharey='row')
-# ax1.plot(x, y)
-# ax1.set_title('Normal Plot')
-# ax2.scatter(x, y, s=2)
-# ax2.set_title('Normal Scatter')
-# ax3.scatter(x, y, color='r')
-# ax3.set_title('I Don\'t Know How To Omit This')
-# ax4.plot(x, y, '--')
-# ax4.set_title('Plot But With Dashed Lines')
-
 # Begin Assignment 1
 
 # Part 1.a.
@@ -147,10 +137,100 @@ plt.scatter(x_final, y_final, color='green')
 
 plt.axis('equal')
 plt.title('Final Positions for 1000 Random Walks')
-plt.xlabel('final x vlaues')
+plt.xlabel('final x values')
 plt.ylabel('final y values')
 plt.show(block=False)
 
 # Part 2.b.
+# Plot stuff as a histogram
+# Or something
+
+plt.figure('Part 2.b. First Histogram')
+plt.hist(d2a)
+plt.title('Histogram of Displacements for 1000 Walks')
+plt.xlabel('Displacement')
+plt.ylabel('Frequency')
+plt.show(block=False)
+
+# Part 2.c.
+d2asquared = [i**2 for i in d2a]
+
+plt.figure('Part 2.c. Second Histogram')
+plt.hist(d2asquared)
+plt.title('Histogram of Displacements Squared for 1000 Walks')
+plt.xlabel('Displacement Squared')
+plt.ylabel('Frequency')
+plt.show(block=False)
+
+# Part 2.d.
+
+plt.figure('Part 2.d. semilogy')
+plt.hist(d2asquared)
+plt.yscale('log', nonposy='clip')
+plt.title('Histogram with y axis as logarithmic')
+plt.xlabel('Displacement Squared')
+plt.ylabel('Frequency')
+plt.show(block=False)
+
+plt.figure('Part 2.d. semilogx')
+plt.hist(d2asquared)
+plt.xscale('log', nonposy='clip')
+plt.title('Histogram with x axis as logarithmic')
+plt.xlabel('Displacement Squared')
+plt.ylabel('Frequency')
+plt.show(block=False)
+
+plt.figure('Part 2.d. loglog')
+plt.hist(d2asquared)
+plt.yscale('log', nonposy='clip')
+plt.xscale('log', nonposy='clip')
+plt.title('Histogram with x and y axis as logarithmic')
+plt.xlabel('Displacement Squared')
+plt.ylabel('Frequency')
+plt.show(block=False)
+
+# Part 2.e.
+d2asquarededmean = np.mean(d2asquared)
+print("The mean-squared displacement for 1000 steps is: ", d2asquarededmean)
+
+# Part 2.f.
+x_final_f = []
+y_final_f = []
+x2f = []
+y2f = []
+d2f = []
+number_runs = 1000
+
+for i in range(0, number_runs):
+    x, y, d = Random_Walk(number_steps * 4)
+    x2f.append(x)
+    y2f.append(y)
+    d2f.append(d)
+
+    x_final_f.append(x[-1])
+    y_final_f.append(y[-1])
+
+plt.figure('Part 2.f. Paths')
+for i in range(0, number_runs):
+    plt.plot(x2f[i], y2f[i])
+
+plt.axis('equal')
+plt.title('Paths for 1000 Random Walks with 4000 Steps')
+plt.xlabel('x values')
+plt.ylabel('y values')
+plt.show(block=False)
+
+plt.figure('Part 2.f. Final Positions')
+plt.scatter(x_final_f, y_final_f, color='green')
+
+plt.axis('equal')
+plt.title('Final Positions for 1000 Random Walks')
+plt.xlabel('final x values')
+plt.ylabel('final y values')
+plt.show(block=False)
+
+d2fsquared = [i**2 for i in d2f]
+d2fsquaredmean = np.mean(d2fsquared)
+print("The mean-squared displacement for 4000 steps is: ", d2fsquaredmean)
 
 plt.show()
