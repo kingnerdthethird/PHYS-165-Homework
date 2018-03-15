@@ -134,7 +134,7 @@ for i in range(0, number_runs):
 
 plt.figure('Part 2.a. Paths')
 for i in range(0, number_runs):
-    plt.plot(x2a[i], y2a[i], '--')
+    plt.plot(x2a[i], y2a[i])
 
 plt.axis('equal')
 plt.title('Paths for 1000 Random Walks')
