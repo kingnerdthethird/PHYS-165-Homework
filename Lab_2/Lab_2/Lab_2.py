@@ -14,7 +14,7 @@ from numpy.random import random as rng # we want them random numbers
 import numpy as np # for the math functions
 import matplotlib.pyplot as plt # to make pretty pretty class
 
-def Random_Walk(steps): # our function that does all the work
+def Random_Walk(number_steps): # our function that does all the work
     # you could say this is the workhorse of the program
     # it takes the random walks for us so we don't have to and can stay inside, never to walk again
     # our random walk generates arrays of positions, not arrays of steps
