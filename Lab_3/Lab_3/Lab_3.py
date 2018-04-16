@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import scipy.misc
+import copy
 
 # Assignment 1
 # For Assignment 1, see the write up
@@ -31,6 +32,7 @@ plt.title('Original Cat Photo')
 plt.show(block=False)
 
 # Part a
+print(cat)
 cat_1 = sim.convolve(cat, myfilter, mode='constant')
 
 plt.figure()
@@ -113,19 +115,86 @@ ax.plot_surface(x_3, y_3, new_cat_3, rstride=1, cstride=1, cmap=plt.cm.gray, lin
 plt.title('3D Cat with Gaussian Filter')
 plt.show(block=False)
 
+x_4, y_4 = np.mgrid[0:myfilter.shape[0], 0:myfilter.shape[1]]
+fig = plt.figure()
+ax = fig.gca(projection='3d')
+ax.plot_surface(x_4, y_4, myfilter, rstride=1, cstride=1, cmap=plt.cm.gray, linewidth=0)
+plt.title('Small Square Filter')
+plt.show(block=False)
+
+x_5, y_5 = np.mgrid[0:filter_2.shape[0], 0:filter_2.shape[1]]
+fig = plt.figure()
+ax = fig.gca(projection='3d')
+ax.plot_surface(x_5, y_5, filter_2, rstride=1, cstride=1, cmap=plt.cm.gray, linewidth=0)
+plt.title('Large Square Filter')
+plt.show(block=False)
+
+x_6, y_6 = np.mgrid[0:gauss_filter.shape[0], 0:gauss_filter.shape[1]]
+fig = plt.figure()
+ax = fig.gca(projection='3d')
+ax.plot_surface(x_6, y_6, gauss_filter, rstride=1, cstride=1, cmap=plt.cm.gray, linewidth=0)
+plt.title('Gaussian Filter')
+plt.show(block=False)
+
 # You can see some very big differences here
 # The square filter makes all the values smaller, but doesn't change the maximum
 # The Gaussian seems to keep the shape but lower the maximum
 
 # Assignment 4
-random_cat = cat
+print(cat)
+print(cat_1)
+random_cat = copy.deepcopy(cat)
 for i in range(0, random_cat.shape[0]):
     for j in range(0, random_cat.shape[1]):
         random_cat[i][j] *= np.random.rand()
 
+print(random_cat)
 plt.figure()
 plt.imshow(random_cat)
 plt.title('Noisy Random Cat')
 plt.show(block=False)
 
+clean_cat = copy.deepcopy(random_cat)
+minimum_value = np.amin(clean_cat)
+maximum_value = np.amax(clean_cat)
+coefficient = 255/maximum_value
+
+print(minimum_value)
+print(maximum_value)
+print(coefficient)
+
+for i in range(0, clean_cat.shape[0]):
+    for j in range(0, clean_cat.shape[1]):
+        clean_cat[i][j] -= minimum_value
+        clean_cat[i][j] *= coefficient
+        clean_cat[i][j] = clean_cat[i][j].astype('uint8')
+
+print(random_cat)
+print(clean_cat)
+plt.figure()
+plt.imshow(clean_cat)
+plt.title('Clean Random Cat')
+plt.show(block=False)
+
+# Part b
+clean_cat_1 = sim.convolve(clean_cat, myfilter)
+clean_cat_2 = sim.convolve(clean_cat, filter_2)
+clean_cat_3 = sim.convolve(clean_cat, gauss_filter)
+
+plt.figure()
+plt.imshow(clean_cat_1)
+plt.title('Clean Random Cat Small Filter')
+plt.show(block=False)
+
+plt.figure()
+plt.imshow(clean_cat_2)
+plt.title('Clean Random Cat Large Filter')
+plt.show(block=False)
+
+plt.figure()
+plt.imshow(clean_cat_3)
+plt.title('Clean Random Cat Gauss Filter')
+plt.show(block=False)
+
+# these don't really seem to clean up the image at all.
 plt.show()
